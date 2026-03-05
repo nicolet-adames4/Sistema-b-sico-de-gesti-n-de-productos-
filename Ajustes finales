@@ -1,0 +1,187 @@
+using System;
+using System.Collections.Generic;
+
+// =======================
+// CLASE PRODUCTO
+// =======================
+class Producto
+{
+    public int Codigo { get; set; }
+    public string Nombre { get; set; }
+    public double Precio { get; set; }
+
+    public Producto(int codigo, string nombre, double precio)
+    {
+        Codigo = codigo;
+        Nombre = nombre;
+        Precio = precio;
+    }
+
+    public void Mostrar()
+    {
+        Console.WriteLine($"Código: {Codigo} | Nombre: {Nombre} | Precio: {Precio}");
+    }
+}
+
+// =======================
+// CLASE ALMACEN
+// =======================
+class Almacen
+{
+    private List<Producto> productos = new List<Producto>();
+
+    public void AgregarProducto(Producto p)
+    {
+        foreach (Producto prod in productos)
+        {
+            if (prod.Codigo == p.Codigo)
+            {
+                Console.WriteLine("Error: El código ya existe.");
+                return;
+            }
+        }
+
+        productos.Add(p);
+        Console.WriteLine("Producto agregado correctamente.");
+    }
+
+    public void BuscarProducto(int codigo)
+    {
+        foreach (Producto p in productos)
+        {
+            if (p.Codigo == codigo)
+            {
+                Console.WriteLine("Producto encontrado:");
+                p.Mostrar();
+                return;
+            }
+        }
+
+        Console.WriteLine("Producto no encontrado.");
+    }
+
+    public void EliminarProducto(int codigo)
+    {
+        for (int i = 0; i < productos.Count; i++)
+        {
+            if (productos[i].Codigo == codigo)
+            {
+                productos.RemoveAt(i);
+                Console.WriteLine("Producto eliminado.");
+                return;
+            }
+        }
+
+        Console.WriteLine("Producto no encontrado.");
+    }
+
+    public void ListarProductos()
+    {
+        if (productos.Count == 0)
+        {
+            Console.WriteLine("No hay productos registrados.");
+            return;
+        }
+
+        foreach (Producto p in productos)
+        {
+            p.Mostrar();
+        }
+    }
+
+    public int CantidadProductos()
+    {
+        return productos.Count;
+    }
+}
+
+// =======================
+// Main
+// =======================
+class Program
+{
+    static void Main(string[] args)
+    {
+        Almacen almacen = new Almacen();
+
+        int opcion = 0;
+
+        while (opcion != 5)
+        {
+            Console.WriteLine("\n===== SISTEMA DE PRODUCTOS =====");
+            Console.WriteLine("1. Registrar producto");
+            Console.WriteLine("2. Buscar producto");
+            Console.WriteLine("3. Eliminar producto");
+            Console.WriteLine("4. Listar productos");
+            Console.WriteLine("5. Salir");
+
+            Console.Write("Seleccione una opción: ");
+
+            if (!int.TryParse(Console.ReadLine(), out opcion))
+            {
+                Console.WriteLine("Entrada inválida.");
+                continue;
+            }
+
+            switch (opcion)
+            {
+                case 1:
+
+                    try
+                    {
+                        Console.Write("Código: ");
+                        int codigo = int.Parse(Console.ReadLine());
+
+                        Console.Write("Nombre: ");
+                        string nombre = Console.ReadLine();
+
+                        Console.Write("Precio: ");
+                        double precio = double.Parse(Console.ReadLine());
+
+                        Producto p = new Producto(codigo, nombre, precio);
+                        almacen.AgregarProducto(p);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error al ingresar datos.");
+                    }
+
+                    break;
+
+                case 2:
+
+                    Console.Write("Código a buscar: ");
+                    int codBuscar = int.Parse(Console.ReadLine());
+                    almacen.BuscarProducto(codBuscar);
+
+                    break;
+
+                case 3:
+
+                    Console.Write("Código a eliminar: ");
+                    int codEliminar = int.Parse(Console.ReadLine());
+                    almacen.EliminarProducto(codEliminar);
+
+                    break;
+
+                case 4:
+
+                    almacen.ListarProductos();
+
+                    break;
+
+                case 5:
+
+                    Console.WriteLine("Saliendo del sistema...");
+
+                    break;
+
+                default:
+
+                    Console.WriteLine("Opción inválida.");
+
+                    break;
+            }
+        }
+    }
+}

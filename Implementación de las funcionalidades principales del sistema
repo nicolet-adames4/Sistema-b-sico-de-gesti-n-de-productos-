@@ -1,0 +1,60 @@
+public void AgregarProducto(Producto p)
+{
+    foreach (Producto prod in productos)
+    {
+        if (prod.Codigo == p.Codigo)
+        {
+            Console.WriteLine("Error: El código ya existe.");
+            return;
+        }
+    }
+
+    productos.Add(p);
+    Console.WriteLine("Producto agregado correctamente.");
+}
+public void BuscarProducto(int codigo)
+{
+    foreach (Producto p in productos)
+    {
+        if (p.Codigo == codigo)
+        {
+            Console.WriteLine("Producto encontrado:");
+            p.Mostrar();
+            return;
+        }
+    }
+
+    Console.WriteLine("Producto no encontrado.");
+}
+public void EliminarProducto(int codigo)
+{
+    for (int i = 0; i < productos.Count; i++)
+    {
+        if (productos[i].Codigo == codigo)
+        {
+            productos.RemoveAt(i);
+            Console.WriteLine("Producto eliminado.");
+            return;
+        }
+    }
+
+    Console.WriteLine("Producto no encontrado.");
+}
+public void ListarProductos()
+{
+    if (productos.Count == 0)
+    {
+        Console.WriteLine("No hay productos registrados.");
+        return;
+    }
+
+    foreach (Producto p in productos)
+    {
+        p.Mostrar();
+    }
+}
+public int CantidadProductos()
+{
+    return productos.Count;
+}
+}
